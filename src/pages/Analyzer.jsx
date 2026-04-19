@@ -53,9 +53,8 @@ function ScoreGauge({ score }) {
           />
         </svg>
         <div
-          style={{ position: "absolute", inset: 0 }}
+          style={{ position: "absolute", inset: 0, alignItems: "center", justifyContent: "center" }}
           className="flex-col"
-          style={{ alignItems: "center", justifyContent: "center" }}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.6 }}

@@ -1,21 +1,41 @@
-import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Analyzer from "./pages/Analyzer";
 import Architecture from "./pages/Architecture";
 import Roadmap from "./pages/Roadmap";
 import Nav from "./components/Nav";
+import NotFound from "./components/NotFound";
+
+/*
+  Route map:
+    /                              → redirect → /developers/docs
+    /developers/docs               → Home
+    /developers/docs/analyzer      → Analyzer
+    /developers/docs/architecture  → Architecture
+    /developers/docs/roadmap       → Roadmap
+    *                              → 404
+*/
 
 export default function App() {
-  const [page, setPage] = useState("home");
-
   return (
     <div className="app">
-      <Nav page={page} setPage={setPage} />
+      <Nav />
       <main className="main-content">
-        {page === "home" && <Home setPage={setPage} />}
-        {page === "analyzer" && <Analyzer />}
-        {page === "architecture" && <Architecture />}
-        {page === "roadmap" && <Roadmap />}
+        <Routes>
+          {/* Root redirect */}
+          <Route path="/" element={<Navigate to="/developers/docs" replace />} />
+
+          {/* Base docs route → Home */}
+          <Route path="/developers/docs" element={<Home />} />
+
+          {/* Sub-routes */}
+          <Route path="/developers/docs/analyzer"     element={<Analyzer />} />
+          <Route path="/developers/docs/architecture" element={<Architecture />} />
+          <Route path="/developers/docs/roadmap"      element={<Roadmap />} />
+
+          {/* 404 catch-all */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
     </div>
   );

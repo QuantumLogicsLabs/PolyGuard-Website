@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
 import links from "../assets/NavbarLinks";
 
-export default function Nav({ page, setPage }) {
-  const [scrolled, setScrolled] = useState(false);
+export default function Nav() {
+  const navigate  = useNavigate();
+  const location  = useLocation();
+
+  const [scrolled, setScrolled]         = useState(false);
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const containerRef = useRef(null);
-  const btnRefs = useRef({});
+  const btnRefs      = useRef({});
 
   /* ── Scroll detection ── */
   useEffect(() => {
@@ -15,9 +19,21 @@ export default function Nav({ page, setPage }) {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  /* ── Position the sliding indicator ── */
+  /* ── Derive active link from current pathname ── */
+  const activePath = (() => {
+    // Exact match first, then prefix match for nested routes
+    const exact = links.find((l) => l.path === location.pathname);
+    if (exact) return exact.path;
+    // Fallback: longest prefix wins
+    const prefix = [...links]
+      .sort((a, b) => b.path.length - a.path.length)
+      .find((l) => location.pathname.startsWith(l.path));
+    return prefix?.path ?? links[0].path;
+  })();
+
+  /* ── Slide indicator to the active button ── */
   useEffect(() => {
-    const activeBtn = btnRefs.current[page];
+    const activeBtn = btnRefs.current[activePath];
     const container = containerRef.current;
     if (!activeBtn || !container) return;
 
@@ -25,12 +41,12 @@ export default function Nav({ page, setPage }) {
     const conRect = container.getBoundingClientRect();
 
     setIndicatorStyle({
-      left: btnRect.left - conRect.left,
-      top: btnRect.top - conRect.top,
-      width: btnRect.width,
+      left:   btnRect.left - conRect.left,
+      top:    btnRect.top  - conRect.top,
+      width:  btnRect.width,
       height: btnRect.height,
     });
-  }, [page]);
+  }, [activePath]);
 
   return (
     <motion.nav
@@ -39,12 +55,10 @@ export default function Nav({ page, setPage }) {
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
+        top: 0, left: 0, right: 0,
         zIndex: 1000,
         height: 66,
-        background: scrolled ? "rgba(1,4,8,0.96)" : "rgba(1,4,8,0.55)",
+        background: scrolled ? "rgba(1,4,8,0.97)" : "rgba(1,4,8,0.55)",
         backdropFilter: "blur(32px) saturate(180%)",
         borderBottom: `1px solid ${scrolled ? "rgba(0,229,255,0.12)" : "rgba(0,229,255,0.05)"}`,
         transition: "background 0.4s, border-color 0.4s",
@@ -56,91 +70,49 @@ export default function Nav({ page, setPage }) {
     >
       {/* ── Logo ── */}
       <div
-        onClick={() => setPage("home")}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          cursor: "pointer",
-        }}
+        onClick={() => navigate("/developers/docs")}
+        style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}
       >
         <div style={{ position: "relative", width: 36, height: 36 }}>
           <svg viewBox="0 0 36 36" fill="none" width="36" height="36">
-            <polygon
-              points="18,2 34,11 34,25 18,34 2,25 2,11"
-              stroke="rgba(0,229,255,0.32)"
-              strokeWidth="1"
-              fill="rgba(0,229,255,0.03)"
-            />
-            <polygon
-              points="18,7 28,13 28,23 18,29 8,23 8,13"
-              stroke="rgba(0,229,255,0.52)"
-              strokeWidth="0.5"
-              fill="none"
-            />
-            <path
-              d="M18 11L18 25M12 15L24 15M12 21L24 21"
-              stroke="var(--cyan)"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-            />
+            <polygon points="18,2 34,11 34,25 18,34 2,25 2,11" stroke="rgba(0,229,255,0.32)" strokeWidth="1" fill="rgba(0,229,255,0.03)" />
+            <polygon points="18,7 28,13 28,23 18,29 8,23 8,13" stroke="rgba(0,229,255,0.52)" strokeWidth="0.5" fill="none" />
+            <path d="M18 11L18 25M12 15L24 15M12 21L24 21" stroke="var(--cyan)" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
-          {/* Glow halo */}
-          <div
-            style={{
-              position: "absolute",
-              inset: -8,
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%)",
-              animation: "glowPulse 3s ease-in-out infinite",
-              pointerEvents: "none",
-            }}
-          />
+          <div style={{
+            position: "absolute", inset: -8,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%)",
+            animation: "glowPulse 3s ease-in-out infinite",
+            pointerEvents: "none",
+          }} />
         </div>
 
         <div>
-          <div
-            style={{
-              fontFamily: "var(--mono)",
-              fontSize: 14,
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-              lineHeight: 1.2,
-            }}
-          >
+          <div style={{ fontFamily: "var(--mono)", fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", lineHeight: 1.2 }}>
             POLY<span style={{ color: "var(--cyan)" }}>GUARD</span>
           </div>
-          <div
-            style={{
-              fontFamily: "var(--mono)",
-              fontSize: 8.5,
-              color: "var(--text3)",
-              letterSpacing: "0.2em",
-            }}
-          >
+          <div style={{ fontFamily: "var(--mono)", fontSize: 8.5, color: "var(--text3)", letterSpacing: "0.2em" }}>
             v1.0 · SECURITY INTELLIGENCE
           </div>
         </div>
       </div>
 
       {/* ── Links ── */}
-      <div
-        ref={containerRef}
-        style={{ display: "flex", gap: 2, position: "relative" }}
-      >
+      <div ref={containerRef} style={{ display: "flex", gap: 2, position: "relative" }}>
         {links.map((l) => (
           <button
-            key={l.id}
-            ref={(el) => (btnRefs.current[l.id] = el)}
-            onClick={() => setPage(l.id)}
+            key={l.path}
+            ref={(el) => (btnRefs.current[l.path] = el)}
+            onClick={() => navigate(l.path)}
             style={{
               position: "relative",
               background: "transparent",
               border: "none",
-              color: page === l.id ? "var(--cyan)" : "var(--text2)",
+              color: activePath === l.path ? "var(--cyan)" : "var(--text2)",
               padding: "8px 16px",
               fontSize: 10,
+              fontFamily: "var(--mono)",
               letterSpacing: "0.14em",
               cursor: "pointer",
               transition: "color 0.2s",
@@ -151,7 +123,7 @@ export default function Nav({ page, setPage }) {
           </button>
         ))}
 
-        {/* Sliding indicator — driven by measured DOM positions, no layout bugs */}
+        {/* Sliding indicator */}
         <motion.div
           animate={indicatorStyle}
           transition={{ type: "spring", stiffness: 420, damping: 32 }}
@@ -167,35 +139,20 @@ export default function Nav({ page, setPage }) {
       </div>
 
       {/* ── Status pill ── */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 7,
-          background: "rgba(57,255,154,0.05)",
-          border: "1px solid rgba(57,255,154,0.18)",
-          borderRadius: 100,
-          padding: "5px 14px",
-        }}
-      >
-        <span
-          style={{
-            display: "block",
-            width: 6,
-            height: 6,
-            borderRadius: "50%",
-            background: "var(--green)",
-            animation: "statusPulse 2.4s ease-in-out infinite",
-          }}
-        />
-        <span
-          style={{
-            fontFamily: "var(--mono)",
-            fontSize: 9,
-            color: "var(--green)",
-            letterSpacing: "0.14em",
-          }}
-        >
+      <div style={{
+        display: "flex", alignItems: "center", gap: 7,
+        background: "rgba(57,255,154,0.05)",
+        border: "1px solid rgba(57,255,154,0.18)",
+        borderRadius: 100,
+        padding: "5px 14px",
+      }}>
+        <span style={{
+          display: "block", width: 6, height: 6,
+          borderRadius: "50%",
+          background: "var(--green)",
+          animation: "statusPulse 2.4s ease-in-out infinite",
+        }} />
+        <span style={{ fontFamily: "var(--mono)", fontSize: 9, color: "var(--green)", letterSpacing: "0.14em" }}>
           API ONLINE
         </span>
       </div>

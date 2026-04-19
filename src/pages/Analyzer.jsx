@@ -201,9 +201,6 @@ export default function Analyzer() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="page-header"
-        style={{
-          marginTop: "40px"
-        }}
       >
         <div className="label-cyan page-header__eyebrow">// CODE ANALYZER</div>
         <h2 className="page-header__title">Security Scanner</h2>

@@ -41,6 +41,8 @@ const SECTIONS = [
         label: "Dataset (Drive)",
         href: "https://drive.google.com/drive/folders/1GLYwUq0kIhaX1s5MeCYJO_2YXClMZ7bV",
       },
+      //    { label: "Notebook Guide",   path: "/developers/docs/notebooks" },
+      //    { label: "Training Guide",   path: "/developers/docs/training-guide" },
     ],
   },
 ];

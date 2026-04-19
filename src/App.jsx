@@ -6,6 +6,9 @@ import Roadmap from "./pages/Roadmap";
 import Nav from "./components/Nav";
 import NotFound from "./components/NotFound";
 import Footer from "./components/Footer";
+import { Notebook } from "lucide-react";
+import TrainingGuide from "./pages/TrainingGuide";
+import Notebooks from "./pages/Notebook";
 
 export default function App() {
   return (
@@ -29,7 +32,11 @@ export default function App() {
             element={<Architecture />}
           />
           <Route path="/developers/docs/roadmap" element={<Roadmap />} />
-
+          <Route path="/developers/docs/notebooks" element={<Notebooks />} />
+          <Route
+            path="/developers/docs/training-guide"
+            element={<TrainingGuide />}
+          />
           {/* 404 catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>

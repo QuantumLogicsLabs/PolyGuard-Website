@@ -5,16 +5,7 @@ import Architecture from "./pages/Architecture";
 import Roadmap from "./pages/Roadmap";
 import Nav from "./components/Nav";
 import NotFound from "./components/NotFound";
-
-/*
-  Route map:
-    /                              → redirect → /developers/docs
-    /developers/docs               → Home
-    /developers/docs/analyzer      → Analyzer
-    /developers/docs/architecture  → Architecture
-    /developers/docs/roadmap       → Roadmap
-    *                              → 404
-*/
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -23,20 +14,27 @@ export default function App() {
       <main className="main-content">
         <Routes>
           {/* Root redirect */}
-          <Route path="/" element={<Navigate to="/developers/docs" replace />} />
+          <Route
+            path="/"
+            element={<Navigate to="/developers/docs" replace />}
+          />
 
           {/* Base docs route → Home */}
           <Route path="/developers/docs" element={<Home />} />
 
           {/* Sub-routes */}
-          <Route path="/developers/docs/analyzer"     element={<Analyzer />} />
-          <Route path="/developers/docs/architecture" element={<Architecture />} />
-          <Route path="/developers/docs/roadmap"      element={<Roadmap />} />
+          <Route path="/developers/docs/analyzer" element={<Analyzer />} />
+          <Route
+            path="/developers/docs/architecture"
+            element={<Architecture />}
+          />
+          <Route path="/developers/docs/roadmap" element={<Roadmap />} />
 
           {/* 404 catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

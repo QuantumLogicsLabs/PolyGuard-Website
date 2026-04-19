@@ -1,142 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+/* src/index.css — scoped overrides (main stylesheet is /index.css) */
 
 :root {
-  --bg0: #020508;
-  --bg1: #060d12;
-  --bg2: #0a1520;
-  --bg3: #0f1f2e;
-  --bg4: #152536;
-  --cyan: #00e5ff;
-  --cyan-dim: #00b8cc;
-  --cyan-glow: rgba(0,229,255,0.15);
-  --cyan-border: rgba(0,229,255,0.2);
-  --green: #00ff9d;
-  --green-dim: rgba(0,255,157,0.7);
-  --red: #ff3d5a;
-  --red-dim: rgba(255,61,90,0.7);
-  --amber: #ffb800;
-  --amber-dim: rgba(255,184,0,0.7);
-  --text: #cde4f0;
-  --text2: #6a8fa8;
-  --text3: #334d62;
-  --mono: 'IBM Plex Mono', monospace;
-  --sans: 'Outfit', sans-serif;
-  --r: 6px;
-  --r2: 12px;
-  --r3: 20px;
+  --nav-h: 56px;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg0);
-  color: var(--text);
-  font-family: var(--sans);
-  min-height: 100vh;
-  overflow-x: hidden;
-  cursor: default;
+/* Scoped page padding */
+.page {
+  flex: 1;
+  padding-top: var(--nav-h);
 }
-
-/* Animated scanline */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-  opacity: 0.15;
-  animation: scanline 8s linear infinite;
-  pointer-events: none;
-  z-index: 10000;
-}
-
-/* Grain overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9998;
-  mix-blend-mode: screen;
-}
-
-@keyframes scanline {
-  0% { top: -2px; opacity: 0; }
-  5% { opacity: 0.15; }
-  95% { opacity: 0.15; }
-  100% { top: 100vh; opacity: 0; }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes glitch {
-  0%, 90%, 100% { transform: translate(0); clip-path: none; }
-  91% { transform: translate(-2px, 1px); clip-path: inset(20% 0 50% 0); }
-  93% { transform: translate(2px, -1px); clip-path: inset(60% 0 10% 0); }
-  95% { transform: translate(-1px, 2px); clip-path: inset(40% 0 30% 0); }
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-@keyframes pulse-ring {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.3); }
-  50% { box-shadow: 0 0 0 8px rgba(0,229,255,0); }
-}
-
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
-@keyframes data-stream {
-  from { background-position: 0 0; }
-  to { background-position: 0 100px; }
-}
-
-@keyframes border-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes draw-in {
-  from { stroke-dashoffset: 1000; }
-  to { stroke-dashoffset: 0; }
-}
-
-.app { min-height: 100vh; display: flex; flex-direction: column; }
-.page { flex: 1; padding-top: 68px; }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-track { background: var(--bg1); }
-::-webkit-scrollbar-thumb { background: var(--cyan-border); border-radius: 2px; }
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg1, #111417);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg5, #2a323b);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text4, #3a4048);
+}
 
 /* Reusable */
-.mono { font-family: var(--mono); }
+.mono {
+  font-family: var(--mono);
+}
 .label {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   color: var(--text3);
   text-transform: uppercase;
 }
-.cyan { color: var(--cyan); }
+.cyan {
+  color: var(--accent-text, #7bb8ff);
+}
 
-button, a { font-family: var(--mono); }
+button,
+a {
+  font-family: var(--sans, "DM Sans", sans-serif);
+}

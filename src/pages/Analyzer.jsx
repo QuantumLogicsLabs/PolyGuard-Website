@@ -202,6 +202,9 @@ export default function Analyzer() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="page-header"
+        style={{
+          marginTop: "40px"
+        }}
       >
         <div className="label-cyan page-header__eyebrow">// CODE ANALYZER</div>
         <h2 className="page-header__title">Security Scanner</h2>
@@ -212,14 +215,8 @@ export default function Analyzer() {
         </p>
       </motion.div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 420px",
-          gap: 20,
-          alignItems: "start",
-        }}
-      >
+      {/* Responsive grid — 2 cols on desktop, stacked on mobile */}
+      <div className="analyzer-grid">
         {/* ── Left: Editor ── */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -262,7 +259,7 @@ export default function Analyzer() {
             </div>
 
             {/* Line numbers + textarea */}
-            <div style={{ display: "flex", minHeight: 400 }}>
+            <div style={{ display: "flex", minHeight: 340 }}>
               <div
                 style={{
                   padding: "1rem 0",
@@ -315,7 +312,7 @@ export default function Analyzer() {
                   lineHeight: 1.7,
                   resize: "none",
                   outline: "none",
-                  minHeight: 400,
+                  minHeight: 340,
                   caretColor: "var(--cyan)",
                 }}
               />
@@ -337,6 +334,7 @@ export default function Analyzer() {
               }
               whileTap={!loading ? { scale: 0.97 } : {}}
               className="btn-primary"
+              style={{ width: "100%", justifyContent: "center" }}
             >
               {loading ? (
                 <>
@@ -348,7 +346,7 @@ export default function Analyzer() {
                 </>
               )}
             </motion.button>
-            <span className="meta-text">
+            <span className="meta-text analyzer-api-hint">
               → {API_URL.replace("https://", "")}
             </span>
           </div>
@@ -357,7 +355,7 @@ export default function Analyzer() {
           <AnimatePresence>
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: -8 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 className="alert alert--error"
@@ -369,14 +367,13 @@ export default function Analyzer() {
           </AnimatePresence>
         </motion.div>
 
-        {/* ── Right: Results ── */}
+        {/* ── Right: Results panel ── */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.15 }}
         >
           <AnimatePresence mode="wait">
-            {/* Empty state */}
             {!result && !loading && (
               <motion.div
                 key="empty"
@@ -384,18 +381,18 @@ export default function Analyzer() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="state-box--border"
+                style={{ textAlign: "center" }}
               >
                 <div className="state-icon">
-                  <Shield size={48} color="var(--cyan)" strokeWidth={1} />
+                  <Shield size={48} color="var(--accent)" strokeWidth={1} />
                 </div>
-                <p className="state-title">Awaiting code submission</p>
+                <p className="state-title">Ready to scan</p>
                 <p className="state-sub">
-                  Select language → paste code → click Run Analysis
+                  Select a language, paste your code, and run analysis.
                 </p>
               </motion.div>
             )}
 
-            {/* Loading state */}
             {loading && (
               <motion.div
                 key="loading"
@@ -403,6 +400,7 @@ export default function Analyzer() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="state-box--loading"
+                style={{ textAlign: "center" }}
               >
                 <div
                   className="scanbar"
@@ -412,93 +410,92 @@ export default function Analyzer() {
                     right: 0,
                     height: 2,
                     background:
-                      "linear-gradient(90deg, transparent, var(--cyan), transparent)",
-                    boxShadow: "0 0 20px var(--cyan)",
+                      "linear-gradient(90deg, transparent, var(--accent), transparent)",
                   }}
                 />
-                <Loader
-                  size={32}
-                  color="var(--cyan)"
-                  className="spin"
-                  style={{ marginBottom: 16 }}
-                />
-                <p
-                  className="state-title"
-                  style={{ color: "var(--cyan)", letterSpacing: "0.14em" }}
-                >
-                  SCANNING...
-                </p>
-                <p className="meta-text" style={{ marginTop: 10 }}>
-                  Model analyzing vulnerability patterns
+                <div className="state-icon">
+                  <Loader
+                    size={48}
+                    color="var(--accent)"
+                    strokeWidth={1}
+                    className="spin"
+                  />
+                </div>
+                <p className="state-title">Scanning code…</p>
+                <p className="state-sub">
+                  CodeBERT model running inference on your snippet.
                 </p>
               </motion.div>
             )}
 
-            {/* Results */}
             {result && (
               <motion.div
                 key="result"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                style={{ display: "flex", flexDirection: "column", gap: 12 }}
               >
-                {/* Score + verdict card */}
-                <div className="card--p mb-card">
+                {/* Score card */}
+                <div className="card--p">
                   <div
-                    className="flex-between"
                     style={{
-                      marginBottom: "1.25rem",
+                      display: "flex",
+                      gap: 20,
+                      alignItems: "center",
                       flexWrap: "wrap",
-                      gap: 12,
                     }}
                   >
-                    <div>
-                      <div className="label mb-label">VERDICT</div>
-                      <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.25 }}
-                        style={{
-                          fontFamily: "var(--mono)",
-                          fontSize: 22,
-                          fontWeight: 700,
-                          color: riskColor(result.risk),
-                          textShadow: `0 0 24px ${riskColor(result.risk)}55`,
-                        }}
-                      >
-                        {result.verdict}
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.45 }}
-                        className="badge"
-                        style={{
-                          marginTop: 8,
-                          background: `${riskColor(result.risk)}14`,
-                          border: `1px solid ${riskColor(result.risk)}32`,
-                          color: riskColor(result.risk),
-                        }}
-                      >
-                        {(result.risk || "unknown").toUpperCase()} RISK
-                      </motion.div>
-                    </div>
-                    <ScoreGauge score={result.score || 0} />
-                  </div>
+                    <ScoreGauge score={result.score} />
 
-                  {/* Confidence bars */}
-                  <div className="flex-col--gap">
-                    <ConfBar
-                      label="CLEAN CONFIDENCE"
-                      value={result.clean_confidence}
-                      color="var(--green)"
-                      delay={0.1}
-                    />
-                    <ConfBar
-                      label="VULN CONFIDENCE"
-                      value={result.vuln_confidence}
-                      color="var(--red)"
-                      delay={0.2}
-                    />
+                    <div style={{ flex: 1, minWidth: 160 }}>
+                      <div className="flex-between" style={{ marginBottom: 8 }}>
+                        <span className="meta-text">VERDICT</span>
+                        <span
+                          style={{
+                            fontFamily: "var(--mono)",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: riskColor(result.risk),
+                          }}
+                        >
+                          {result.verdict}
+                        </span>
+                      </div>
+                      <div className="flex-between" style={{ marginBottom: 16 }}>
+                        <span className="meta-text">RISK LEVEL</span>
+                        <span
+                          style={{
+                            fontFamily: "var(--mono)",
+                            fontSize: 11,
+                            fontWeight: 600,
+                            color: riskColor(result.risk),
+                            background: `${riskColor(result.risk)}14`,
+                            border: `1px solid ${riskColor(result.risk)}30`,
+                            borderRadius: "var(--r)",
+                            padding: "1px 8px",
+                          }}
+                        >
+                          {result.risk?.toUpperCase()}
+                        </span>
+                      </div>
+
+                      {/* Confidence bars */}
+                      <div className="flex-col--gap">
+                        <ConfBar
+                          label="CLEAN CONFIDENCE"
+                          value={result.clean_confidence}
+                          color="var(--green)"
+                          delay={0.1}
+                        />
+                        <ConfBar
+                          label="VULN CONFIDENCE"
+                          value={result.vuln_confidence}
+                          color="var(--red)"
+                          delay={0.2}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -537,7 +534,6 @@ export default function Analyzer() {
                       onClick={() => setShowRaw((v) => !v)}
                       style={{
                         width: "100%",
-                        maxWidth: "420px",
                         background: "rgba(255,255,255,0.03)",
                         border: "1px solid rgba(255,255,255,0.08)",
                         borderRadius: "10px",
@@ -549,7 +545,6 @@ export default function Analyzer() {
                         backdropFilter: "blur(8px)",
                       }}
                     >
-                      {/* LEFT */}
                       <span
                         style={{
                           letterSpacing: "0.14em",
@@ -561,7 +556,6 @@ export default function Analyzer() {
                         RAW JSON
                       </span>
 
-                      {/* RIGHT */}
                       <div
                         style={{
                           display: "flex",
@@ -572,7 +566,7 @@ export default function Analyzer() {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            copyJson();
+                            copyJson(e);
                           }}
                           style={{
                             display: "flex",

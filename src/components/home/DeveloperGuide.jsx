@@ -91,6 +91,7 @@ export default function DeveloperGuide() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
+            className="dev-guide-step"
             style={{
               display: "grid",
               gridTemplateColumns: "300px 1fr",
@@ -103,6 +104,7 @@ export default function DeveloperGuide() {
           >
             {/* Left: description */}
             <div
+              className="dev-guide-step-border"
               style={{
                 padding: "1.75rem",
                 borderRight: "1px solid var(--border)",

@@ -78,7 +78,7 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ── Layout ── */
-  --nav-h: 56px;
+  --nav-h: 100px;
   --sidebar-w: 220px;
   --content-w: 1100px;
   --prose-w: 680px;

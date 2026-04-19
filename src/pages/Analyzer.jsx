@@ -532,43 +532,73 @@ export default function Analyzer() {
 
                 {/* Raw JSON toggle */}
                 <div className="card--r2">
-                  <button
-                    onClick={() => setShowRaw((v) => !v)}
-                    style={{
-                      width: "100%",
-                      background: "transparent",
-                      border: "none",
-                      cursor: "pointer",
-                      color: "var(--text3)",
-                    }}
-                    className="flex-between"
-                    style={{ padding: "10px 14px" }}
-                  >
-                    <span
-                      className="meta-text"
-                      style={{ letterSpacing: "0.12em" }}
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div
+                      onClick={() => setShowRaw((v) => !v)}
+                      style={{
+                        width: "100%",
+                        maxWidth: "420px",
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        borderRadius: "10px",
+                        padding: "12px 16px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        backdropFilter: "blur(8px)",
+                      }}
                     >
-                      RAW JSON
-                    </span>
-                    <div className="flex-center--gap">
-                      <button
-                        onClick={copyJson}
-                        className="btn-icon"
+                      {/* LEFT */}
+                      <span
                         style={{
-                          color: copied ? "var(--green)" : "var(--text3)",
+                          letterSpacing: "0.14em",
+                          fontSize: "11px",
+                          color: "var(--text3)",
+                          fontWeight: 600,
                         }}
                       >
-                        {copied ? <Check size={9} /> : <Copy size={9} />}
-                        {copied ? "COPIED" : "COPY"}
-                      </button>
-                      <motion.div
-                        animate={{ rotate: showRaw ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
+                        RAW JSON
+                      </span>
+
+                      {/* RIGHT */}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
                       >
-                        <ChevronDown size={14} />
-                      </motion.div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            copyJson();
+                          }}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontSize: "11px",
+                            border: "none",
+                            background: "transparent",
+                            cursor: "pointer",
+                            color: copied ? "var(--green)" : "var(--text3)",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {copied ? <Check size={10} /> : <Copy size={10} />}
+                          {copied ? "COPIED" : "COPY"}
+                        </button>
+
+                        <motion.div
+                          animate={{ rotate: showRaw ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ChevronDown size={16} />
+                        </motion.div>
+                      </div>
                     </div>
-                  </button>
+                  </div>
 
                   <AnimatePresence>
                     {showRaw && (

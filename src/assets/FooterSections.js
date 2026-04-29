@@ -1,5 +1,4 @@
-import { Section } from "lucide-react";
-
+// src/assets/FooterSections.js
 const SECTIONS = [
   {
     title: "Documentation",
@@ -7,7 +6,16 @@ const SECTIONS = [
       { label: "Getting Started", path: "/developers/docs" },
       { label: "Code Analyzer", path: "/developers/docs/analyzer" },
       { label: "System Architecture", path: "/developers/docs/architecture" },
+      { label: "Model Status", path: "/developers/docs/model-status" }, // ← new
       { label: "Roadmap", path: "/developers/docs/roadmap" },
+    ],
+  },
+  {
+    title: "Training",
+    links: [
+      { label: "Training Guide", path: "/developers/docs/training-guide" },
+      { label: "Notebooks", path: "/developers/docs/notebooks" },
+      { label: "Model Status", path: "/developers/docs/model-status" },
     ],
   },
   {
@@ -17,9 +25,18 @@ const SECTIONS = [
         label: "POST /analyze",
         href: "https://muhammadsaadamin-polyguard-api.hf.space/analyze",
       },
-      { label: "API Schema", path: "/developers/docs" },
-      { label: "Rate Limits", path: "/developers/docs" },
-      { label: "Error Codes", path: "/developers/docs" },
+      {
+        label: "POST /analyze_batch",
+        href: "https://muhammadsaadamin-polyguard-api.hf.space/analyze_batch",
+      },
+      {
+        label: "GET /health",
+        href: "https://muhammadsaadamin-polyguard-api.hf.space/health",
+      },
+      {
+        label: "Swagger Docs",
+        href: "https://muhammadsaadamin-polyguard-api.hf.space/docs",
+      },
     ],
   },
   {
@@ -31,7 +48,7 @@ const SECTIONS = [
       },
       {
         label: "HF Model",
-        href: "https://huggingface.co/MUHAMMADSAADAMIN/polyguard-model",
+        href: "https://huggingface.co/MUHAMMADSAADAMIN/PolyGuard",
       },
       {
         label: "HF Spaces API",
@@ -41,8 +58,6 @@ const SECTIONS = [
         label: "Dataset (Drive)",
         href: "https://drive.google.com/drive/folders/1GLYwUq0kIhaX1s5MeCYJO_2YXClMZ7bV",
       },
-      //    { label: "Notebook Guide",   path: "/developers/docs/notebooks" },
-      //    { label: "Training Guide",   path: "/developers/docs/training-guide" },
     ],
   },
 ];

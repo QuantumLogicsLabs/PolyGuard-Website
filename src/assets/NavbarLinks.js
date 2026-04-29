@@ -1,3 +1,4 @@
+// src/assets/NavbarLinks.js
 const links = [
   { id: "home", label: "HOME", path: "/developers/docs" },
   { id: "analyzer", label: "ANALYZER", path: "/developers/docs/analyzer" },
@@ -12,6 +13,11 @@ const links = [
     label: "TRAINING GUIDE",
     path: "/developers/docs/training-guide",
   },
+  {
+    id: "modelstatus",
+    label: "MODEL STATUS",
+    path: "/developers/docs/model-status",
+  }, // ← new
   { id: "roadmap", label: "ROADMAP", path: "/developers/docs/roadmap" },
 ];
 

@@ -178,9 +178,27 @@ function vulnBar(pct) {
   );
 }
 
+// ── Section heading — matches style used across other pages ──
+function SectionHeading({ children }) {
+  return (
+    <h2
+      style={{
+        fontFamily: "var(--display)",
+        fontSize: "clamp(1.1rem, 2.5vw, 1.35rem)",
+        fontWeight: 700,
+        color: "var(--text)",
+        letterSpacing: "-0.01em",
+        marginBottom: "1rem",
+      }}
+    >
+      {children}
+    </h2>
+  );
+}
+
 export default function ModelStatus() {
   return (
-    <div className="page">
+    <div className="page page-container--md">
       {/* ── Page header ─────────────────────────────────── */}
       <motion.div
         className="page-header"
@@ -188,13 +206,10 @@ export default function ModelStatus() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
+        {/* Eyebrow row — badges + label */}
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: 6,
-          }}
+          className="page-header__eyebrow"
+          style={{ display: "flex", alignItems: "center", gap: 10 }}
         >
           <span
             className="badge"
@@ -207,9 +222,13 @@ export default function ModelStatus() {
             LIVE
           </span>
           <span className="badge">v5_extended</span>
+          <span className="label-cyan" style={{ marginLeft: 4 }}>
+            // MODEL STATUS
+          </span>
         </div>
-        <h1 className="page-title">Model Status</h1>
-        <p className="page-sub">
+
+        <h2 className="page-header__title">Model Status</h2>
+        <p className="page-header__sub">
           Current state of the PolyGuard ML model — training history, live
           metrics, known weaknesses, and what was improved in each version.
         </p>
@@ -271,9 +290,9 @@ export default function ModelStatus() {
         animate="show"
         style={{ marginBottom: 32 }}
       >
-        <motion.h2 variants={fade} className="section-title">
-          Model Identity
-        </motion.h2>
+        <motion.div variants={fade}>
+          <SectionHeading>Model Identity</SectionHeading>
+        </motion.div>
         <motion.div variants={fade} className="card--p">
           <div
             style={{
@@ -364,9 +383,9 @@ export default function ModelStatus() {
         animate="show"
         style={{ marginBottom: 32 }}
       >
-        <motion.h2 variants={fade} className="section-title">
-          Live Sanity Check
-        </motion.h2>
+        <motion.div variants={fade}>
+          <SectionHeading>Live Sanity Check</SectionHeading>
+        </motion.div>
         <motion.p
           variants={fade}
           style={{ fontSize: 13, color: "var(--text2)", marginBottom: 14 }}
@@ -429,9 +448,9 @@ export default function ModelStatus() {
         animate="show"
         style={{ marginBottom: 32 }}
       >
-        <motion.h2 variants={fade} className="section-title">
-          Training History
-        </motion.h2>
+        <motion.div variants={fade}>
+          <SectionHeading>Training History</SectionHeading>
+        </motion.div>
         <motion.div
           variants={fade}
           style={{ display: "flex", flexDirection: "column", gap: 10 }}
@@ -542,9 +561,9 @@ export default function ModelStatus() {
         animate="show"
         style={{ marginBottom: 32 }}
       >
-        <motion.h2 variants={fade} className="section-title">
-          Known Weaknesses
-        </motion.h2>
+        <motion.div variants={fade}>
+          <SectionHeading>Known Weaknesses</SectionHeading>
+        </motion.div>
         <motion.p
           variants={fade}
           style={{ fontSize: 13, color: "var(--text2)", marginBottom: 14 }}

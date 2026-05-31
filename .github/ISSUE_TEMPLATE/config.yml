@@ -1,0 +1,18 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 💬 Team Discussion
+    url: https://github.com/QuantumLogicsLabs/PolyGuard/discussions
+    about: For general questions, ideas, or team discussions use GitHub Discussions.
+
+  - name: 📖 Documentation
+    url: https://github.com/QuantumLogicsLabs/PolyGuard/blob/main/README.md
+    about: Read the documentation before opening an issue.
+
+  - name: 🚀 Live API
+    url: https://muhammadsaadamin-polyguard-api.hf.space/docs
+    about: Test the PolyGuard API directly via Swagger UI.
+
+  - name: 🤗 HuggingFace Model
+    url: https://huggingface.co/MUHAMMADSAADAMIN/PolyGuard
+    about: Access the PolyGuard model on HuggingFace.
